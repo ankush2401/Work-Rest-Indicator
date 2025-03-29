@@ -1,1 +1,59 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work-Rest Indicator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      margin: 0;
+    }
+    #status {
+      font-size: 5rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div id="status">Checking...</div>  <script>
+    function updateStatus() {
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinutes = now.getMinutes();
+      const currentTime = currentHour * 60 + currentMinutes; // Convert to minutes for comparison
 
+      const schedule = [
+        [540, 630, 'WORK'], // 09:00 - 10:30
+        [630, 650, 'REST'], // 10:30 - 10:50
+        [650, 740, 'WORK'], // 10:50 - 12:20
+        [740, 760, 'REST'], // 12:20 - 12:40
+        [760, 850, 'WORK'], // 12:40 - 02:10
+        [850, 870, 'REST'], // 02:10 - 02:30
+        [870, 960, 'WORK'], // 02:30 - 04:00
+        [960, 980, 'REST'], // 04:00 - 04:20
+        [980, 1070, 'WORK'], // 04:20 - 05:50
+        [1070, 1090, 'REST'] // 05:50 - 06:10
+      ];
+
+      let statusText = 'OUTSIDE SCHEDULE';
+
+      for (let [start, end, status] of schedule) {
+        if (currentTime >= start && currentTime < end) {
+          statusText = status;
+          break;
+        }
+      }
+
+      document.getElementById('status').textContent = statusText;
+    }
+
+    updateStatus();
+    setInterval(updateStatus, 1000 * 60); // Update every minute
+  </script></body>
+</html>
